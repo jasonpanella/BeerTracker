@@ -2,16 +2,21 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
-        mavenCentral()
+        mavenCentral{
+            url 'https://oss.jfrog.org/artifactory/oss-snapshot-local'
+
+        }
     }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
-        mavenCentral()
+        mavenCentral{
+            url 'https://oss.jfrog.org/artifactory/oss-snapshot-local'
+        }
         jcenter() // required for android-adapters realm recyclerview adapter library
     }
 }
-rootProject.name = "BeerTrackerApp"
+rootProject.name = "App"
 include ':app'

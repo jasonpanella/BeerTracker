@@ -5,6 +5,9 @@ buildscript {
     repositories {
         google()
         jcenter() // required for android-adapters realm recyclerview adapter library
+        maven {
+            url 'https://oss.jfrog.org/artifactory/oss-snapshot-local'
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.2'
