@@ -20,3 +20,7 @@ local.properties
 # Log file
 *.log
 
+/consoleapp/MongoDBLoader/.vs/MongoDBLoader/v17
+/consoleapp/MongoDBLoader/MongoDBLoader/bin/Debug/netcoreapp3.1
+/consoleapp/MongoDBLoader/MongoDBLoader/obj
+/consoleapp/MongoDBLoader/MongoDBLoader.Domain/obj
