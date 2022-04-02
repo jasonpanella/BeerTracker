@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using CsvHelper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDBLoader.Domain.CSVModel;
 
 namespace MongoDBLoader
 {
@@ -14,6 +20,18 @@ namespace MongoDBLoader
         {
 
             var serviceProvider = AppStartUp();
+
+
+
+            // Read input data file
+            var inputDataCsvList = await serviceProvider.GetService<IMyApplication>().ReadInputFile();
+
+            //
+            // List<Beverage> beverages = new List<Beverage>();
+            //inputDataCsvList.CopyTo(beverages);
+            //inputDataCsvList.ForEach(x=>x.);
+            await serviceProvider.GetService<IMyApplication>().InsertIntoMongoDb(inputDataCsvList);
+
 
             // Get mongo db loader service
             await serviceProvider.GetService<IMyApplication>().GetDetails();

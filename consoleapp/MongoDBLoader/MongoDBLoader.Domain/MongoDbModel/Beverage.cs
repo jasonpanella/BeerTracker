@@ -6,18 +6,16 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace MongoDBLoader
 {
-    public class Drink
+    public class Beverage
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+        public string BeverageName { get; set; }
+        public string Description { get; set; }
+        public decimal ABV { get; set; }
+        public int Category { get; set; }
+        public DateTime LastUpdate { get; set; }
 
-        public string Name { get; set; }
-
-        public decimal IsComplete { get; set; }
-
-        public string Summary { get; set; }
-
-        public decimal AbvContext { get; set; }
     }
 }

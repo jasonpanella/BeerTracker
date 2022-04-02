@@ -7,17 +7,28 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
+    <None Remove="Utilities\beers.csv" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Utilities\beers.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="27.2.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="MongoDB.Driver" Version="2.15.0" />
+    <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MongoDb.Repository\MongoDb.Repository.csproj" />
+    <ProjectReference Include="..\MongoDBLoader.Domain\MongoDBLoader.Domain.csproj" />
   </ItemGroup>
 
 </Project>

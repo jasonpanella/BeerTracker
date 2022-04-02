@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using MongoDB.Driver;
 
-namespace MongoDBLoader
+namespace MongoDb.Repository.Interfaces
 {
 
     public interface IMongoDBContext
     {
-        IMongoCollection<Book> GetCollection<Book>(string name);
+        IMongoCollection<Beverage> GetCollection<Beverage>(string name);
     }
 
 }
