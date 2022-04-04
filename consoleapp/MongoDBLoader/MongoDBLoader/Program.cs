@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDb.Repository;
+using MongoDb.Repository.Interfaces;
 using MongoDBLoader.Domain.CSVModel;
 
 namespace MongoDBLoader
@@ -21,7 +23,7 @@ namespace MongoDBLoader
 
             var serviceProvider = AppStartUp();
 
-
+            await serviceProvider.GetService<IMyApplication>().GetAll();
 
             // Read input data file
             var inputDataCsvList = await serviceProvider.GetService<IMyApplication>().ReadInputFile();
@@ -58,9 +60,14 @@ namespace MongoDBLoader
             
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<IMyApplication, MyApplication>()
+                .AddSingleton<IBeverageRepository, BeverageRepository>()
                 .AddSingleton(m =>
                 {
                     return new MongoClient(mongoSettingConfiguration.ConnectionString);
+                })
+                .AddSingleton(m =>
+                {
+                    return new MongoDBContext(mongoSettingConfiguration.ConnectionString, mongoSettingConfiguration.DatabaseName);
                 })
                 //.AddSingleton<IMongoDBContext, MongoDBContext>()
                 .AddSingleton<Mongosettings>(mongoSettingConfiguration)

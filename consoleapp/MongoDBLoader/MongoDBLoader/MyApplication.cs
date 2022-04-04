@@ -11,6 +11,8 @@ using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Authentication;
+using MongoDb.Repository.Interfaces;
 using MongoDBLoader.Domain.CSVModel;
 using Newtonsoft.Json;
 using SharpCompress.Common;
@@ -23,13 +25,30 @@ namespace MongoDBLoader
         protected IMongoCollection<Beverage> _dbCollection;
         private readonly Mongosettings _settings;
         private IMongoDatabase _db { get; set; }
+        private readonly IBeverageRepository _beverageRepository;
 
-        public MyApplication(MongoClient client, Mongosettings mongosettings)
+
+        public MyApplication(MongoClient client, Mongosettings mongosettings, IBeverageRepository beverageRepository)
         {
             _client = client;
             _settings = mongosettings;
+            _beverageRepository = beverageRepository;
         }
 
+        public async Task GetAll()
+        {
+            var beverages = await _beverageRepository.Get();
+            
+            var list = beverages.ToList();
+            
+            list.ForEach(x =>
+            {
+                Console.WriteLine(x.BeverageName);
+
+            });
+
+        }
+        
         public async Task GetDetails()
         {
             var _db = _client.GetDatabase(_settings.DatabaseName);

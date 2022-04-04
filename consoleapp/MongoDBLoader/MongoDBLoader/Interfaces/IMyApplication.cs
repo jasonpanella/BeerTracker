@@ -12,6 +12,6 @@ namespace MongoDBLoader
         Task<List<InputDataCsv>> ReadInputFile();
 
         Task InsertIntoMongoDb(List<InputDataCsv> inputDataList);
-
+        Task GetAll();
     }
 }
