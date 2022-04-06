@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CsvHelper;
 using MongoDB.Bson;
@@ -64,37 +63,9 @@ namespace MongoDBLoader
         /// </summary>
         /// <param name="inputDataList"></param>
         /// <returns></returns>
-        public async Task InsertIntoMongoDb(List<InputDataCsv> inputDataList)
+        public async Task InsertIntoMongoDb(List<Beverage> beverageList)
         {
-
-            //var _db = _client.GetDatabase(_settings.DatabaseName);
-            //_dbCollection = _db.GetCollection<Beverage>("Beverage");
-
-            var count = await _beverageRepository.DocumentCount(Builders<Beverage>.Filter.Empty);
-
-            if (count > 0)
-            {
-                await DeleteAllDocuments(Builders<Beverage>.Filter.Empty);
-            }
-
-            count = await _beverageRepository.DocumentCount(Builders<Beverage>.Filter.Empty);
-            //_dbCollection.CountDocumentsAsync(new BsonDocument());
-
-            List<Beverage> beverageList = new List<Beverage>();
-
-            inputDataList.ForEach(x =>
-            {
-                beverageList.Add(new Beverage{Description = x.Description, ABV = x.ABV, Category = x.Category, BeverageName = x.BeverageName});
-
-            });
-
             await _beverageRepository.InsertManyAsync(beverageList);
-
-            await _dbCollection.InsertManyAsync(beverageList);
-
-            Console.WriteLine(await _dbCollection.CountDocumentsAsync(new BsonDocument()));
-
-            
         }
 
         public async Task<Beverage> FindOneDocumentAsync(string documentId)

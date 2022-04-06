@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using CsvHelper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDb.Repository;
 using MongoDb.Repository.Interfaces;
 using MongoDBLoader.Domain.CSVModel;
-using MongoDBLoader.Domain;
 
 namespace MongoDBLoader
 {
@@ -37,7 +31,17 @@ namespace MongoDBLoader
                 Console.WriteLine("No Documents found in Mongo DB collection. Let's load them....");
                 // Read input data file
                 inputDataCsvList = await serviceProvider.GetService<IMyApplication>().ReadInputFile();
+
+                List<Beverage> beverageList = new List<Beverage>();
+
+                inputDataCsvList.ForEach(x =>
+                {
+                    beverageList.Add(new Beverage { Description = x.Description, ABV = x.ABV, Category = x.Category, BeverageName = x.BeverageName });
+                });
+                
                 await serviceProvider.GetService<IMyApplication>().InsertIntoMongoDb(inputDataCsvList);
+
+                Console.WriteLine(await serviceProvider.GetService<IMyApplication>().GetDocumentCollectionCount(Builders<Beverage>.Filter.Empty));
             }
 
             var firstBeverageFromDb = await serviceProvider.GetService<IMyApplication>().GetDetails(beverage.Id.ToString());
