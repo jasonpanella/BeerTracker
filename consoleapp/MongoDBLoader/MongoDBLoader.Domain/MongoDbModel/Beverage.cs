@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using System.Text;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDBLoader.Domain;
 
 namespace MongoDBLoader
 {
-    public class Beverage
+    [BsonCollection("Beverage")]
+    public class Beverage : Document
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
         public string BeverageName { get; set; }
         public string Description { get; set; }
         public decimal ABV { get; set; }
         public int Category { get; set; }
         public DateTime LastUpdate { get; set; }
-
     }
 }

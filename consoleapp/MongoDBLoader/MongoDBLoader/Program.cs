@@ -13,6 +13,7 @@ using MongoDB.Driver;
 using MongoDb.Repository;
 using MongoDb.Repository.Interfaces;
 using MongoDBLoader.Domain.CSVModel;
+using MongoDBLoader.Domain;
 
 namespace MongoDBLoader
 {
@@ -20,23 +21,44 @@ namespace MongoDBLoader
     {
         static async Task Main(string[] args)
         {
-
+            // configure app
             var serviceProvider = AppStartUp();
 
-            await serviceProvider.GetService<IMyApplication>().GetAll();
+            List<InputDataCsv> inputDataCsvList = new List<InputDataCsv>();
 
-            // Read input data file
-            var inputDataCsvList = await serviceProvider.GetService<IMyApplication>().ReadInputFile();
+            // retrieve all documents from collection
+            var allBeverages = await serviceProvider.GetService<IMyApplication>().GetAll();
+            
+            //grab the first document
+            var beverage = allBeverages.FirstOrDefault();
 
-            //
-            // List<Beverage> beverages = new List<Beverage>();
-            //inputDataCsvList.CopyTo(beverages);
-            //inputDataCsvList.ForEach(x=>x.);
-            await serviceProvider.GetService<IMyApplication>().InsertIntoMongoDb(inputDataCsvList);
+            if (beverage == null)
+            {
+                Console.WriteLine("No Documents found in Mongo DB collection. Let's load them....");
+                // Read input data file
+                inputDataCsvList = await serviceProvider.GetService<IMyApplication>().ReadInputFile();
+                await serviceProvider.GetService<IMyApplication>().InsertIntoMongoDb(inputDataCsvList);
+            }
 
+            var firstBeverageFromDb = await serviceProvider.GetService<IMyApplication>().GetDetails(beverage.Id.ToString());
+            //OR
+            //var firstBeverageFromDb =  await serviceProvider.GetService<IMyApplication>().FindOneDocumentAsync(beverage.Id.ToString());
 
-            // Get mongo db loader service
-            await serviceProvider.GetService<IMyApplication>().GetDetails();
+            // let's make an update; maybe change name
+            Console.WriteLine($"Going to update document with new name. Previous name is {firstBeverageFromDb.BeverageName}");
+            firstBeverageFromDb.BeverageName = "Updated Beverage";
+            await serviceProvider.GetService<IMyApplication>().UpdateDocument(firstBeverageFromDb);
+
+            // Did we really update, let's check
+            var updatedBeverageFromDb = await serviceProvider.GetService<IMyApplication>().FindOneDocumentAsync(beverage.Id.ToString());
+            Console.WriteLine($"Document Updated. New document name is {updatedBeverageFromDb.BeverageName}");
+            
+            //Now let's delete all from Mongo
+            var documentCount = await serviceProvider.GetService<IMyApplication>().GetDocumentCollectionCount(Builders<Beverage>.Filter.Empty);
+            Console.WriteLine($"Getting ready to Delete {documentCount} documents");
+            await serviceProvider.GetService<IMyApplication>().DeleteAllDocuments(Builders<Beverage>.Filter.Empty);
+            Console.WriteLine($"{await serviceProvider.GetService<IMyApplication>().GetDocumentCollectionCount(Builders<Beverage>.Filter.Empty)} Documents exist.");
+
         }
 
         static Mongosettings getConfiguration()

@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CsvHelper;
 using MongoDB.Bson;
-using MongoDB.Bson.IO;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-using MongoDB.Driver.Core.Authentication;
 using MongoDb.Repository.Interfaces;
+using MongoDBLoader.Domain;
 using MongoDBLoader.Domain.CSVModel;
-using Newtonsoft.Json;
-using SharpCompress.Common;
 
 namespace MongoDBLoader
 {
@@ -35,29 +30,33 @@ namespace MongoDBLoader
             _beverageRepository = beverageRepository;
         }
 
-        public async Task GetAll()
+        /// <summary>
+        /// Get all Beverage documents
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<Beverage>> GetAll()
         {
-            var beverages = await _beverageRepository.Get();
-            
-            var list = beverages.ToList();
-            
-            list.ForEach(x =>
-            {
-                Console.WriteLine(x.BeverageName);
-
-            });
-
+            return _beverageRepository.AsQueryable();
         }
         
-        public async Task GetDetails()
+        public async Task<Beverage> GetDetails(string documentId)
         {
-            var _db = _client.GetDatabase(_settings.DatabaseName);
-            _dbCollection = _db.GetCollection<Beverage>("Beverage");
+            return await _beverageRepository.FindByIdAsync(documentId);
+        }
 
-            var objectId = new ObjectId("6244ad09c5008bff9191f1aa");
-            FilterDefinition<Beverage> filter = Builders<Beverage>.Filter.Eq("_id", objectId);
-            var document = await _dbCollection.FindAsync(filter).Result.FirstOrDefaultAsync();
-            Console.WriteLine(document.Description);
+        public async Task UpdateDocument(Beverage document)
+        {
+            await _beverageRepository.Update(document);
+        }
+
+        public async Task DeleteAllDocuments(FilterDefinition<Beverage> filterExpression)
+        {
+            await _beverageRepository.DeleteAllAsync(filterExpression);
+        }
+
+        public async Task<long> GetDocumentCollectionCount(FilterDefinition<Beverage> filterExpression)
+        {
+            return await _beverageRepository.DocumentCount(filterExpression);
         }
 
         /// <summary>
@@ -68,18 +67,18 @@ namespace MongoDBLoader
         public async Task InsertIntoMongoDb(List<InputDataCsv> inputDataList)
         {
 
-            var _db = _client.GetDatabase(_settings.DatabaseName);
-            _dbCollection = _db.GetCollection<Beverage>("Beverage");
+            //var _db = _client.GetDatabase(_settings.DatabaseName);
+            //_dbCollection = _db.GetCollection<Beverage>("Beverage");
 
-            var count = await _dbCollection.CountDocumentsAsync(new BsonDocument());
+            var count = await _beverageRepository.DocumentCount(Builders<Beverage>.Filter.Empty);
 
             if (count > 0)
             {
-                var filter = Builders<Beverage>.Filter.Empty;
-                await _dbCollection.DeleteManyAsync(filter);
+                await DeleteAllDocuments(Builders<Beverage>.Filter.Empty);
             }
 
-            count = await _dbCollection.CountDocumentsAsync(new BsonDocument());
+            count = await _beverageRepository.DocumentCount(Builders<Beverage>.Filter.Empty);
+            //_dbCollection.CountDocumentsAsync(new BsonDocument());
 
             List<Beverage> beverageList = new List<Beverage>();
 
@@ -89,11 +88,19 @@ namespace MongoDBLoader
 
             });
 
+            await _beverageRepository.InsertManyAsync(beverageList);
+
             await _dbCollection.InsertManyAsync(beverageList);
 
             Console.WriteLine(await _dbCollection.CountDocumentsAsync(new BsonDocument()));
 
             
+        }
+
+        public async Task<Beverage> FindOneDocumentAsync(string documentId)
+        {
+            var objectId = new ObjectId(documentId);
+            return await _beverageRepository.FindOneAsync(doc=> doc.Id == objectId);
         }
 
 
