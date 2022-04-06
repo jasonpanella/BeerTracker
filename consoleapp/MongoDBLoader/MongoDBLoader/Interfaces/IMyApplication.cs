@@ -12,8 +12,7 @@ namespace MongoDBLoader
         Task<Beverage> FindOneDocumentAsync(string documentId);
         Task<Beverage> GetDetails(string documentId);
         Task<List<InputDataCsv>> ReadInputFile();
-
-        Task InsertIntoMongoDb(List<InputDataCsv> inputDataList);
+        Task InsertIntoMongoDb(List<Beverage> beverageList);
         Task<IEnumerable<Beverage>> GetAll();
         Task UpdateDocument(Beverage document);
         Task DeleteAllDocuments(FilterDefinition<Beverage> filterExpression);

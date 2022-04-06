@@ -39,7 +39,7 @@ namespace MongoDBLoader
                     beverageList.Add(new Beverage { Description = x.Description, ABV = x.ABV, Category = x.Category, BeverageName = x.BeverageName });
                 });
                 
-                await serviceProvider.GetService<IMyApplication>().InsertIntoMongoDb(inputDataCsvList);
+                await serviceProvider.GetService<IMyApplication>().InsertIntoMongoDb(beverageList);
 
                 Console.WriteLine(await serviceProvider.GetService<IMyApplication>().GetDocumentCollectionCount(Builders<Beverage>.Filter.Empty));
             }
