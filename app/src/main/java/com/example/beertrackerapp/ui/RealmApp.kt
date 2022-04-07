@@ -1,7 +1,8 @@
-package com.example.beertrackerapp
+package com.example.beertrackerapp.ui
 
 import android.app.Application
 import android.util.Log
+import com.example.beertrackerapp.R
 import io.realm.BuildConfig
 
 import io.realm.Realm

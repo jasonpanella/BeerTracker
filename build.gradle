@@ -15,6 +15,15 @@ buildscript {
         classpath "io.realm:realm-gradle-plugin:10.9.0"
     }
 }
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url 'https://oss.jfrog.org/artifactory/oss-snapshot-local'
+        }
+    }
+}
 
 task clean(type: Delete) {
     delete rootProject.buildDir

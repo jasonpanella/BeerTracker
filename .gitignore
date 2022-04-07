@@ -24,3 +24,11 @@ local.properties
 /consoleapp/MongoDBLoader/MongoDBLoader/bin/Debug/netcoreapp3.1
 /consoleapp/MongoDBLoader/MongoDBLoader/obj
 /consoleapp/MongoDBLoader/MongoDBLoader.Domain/obj
+/consoleapp/MongoDBLoader/MongoDb.Data/obj
+/consoleapp/MongoDBLoader/.vs/MongoDBLoader/config
+/consoleapp/MongoDBLoader/MongoDb.Repository/obj
+/consoleapp/MongoDBLoader/MongoDBLoader.Domain/bin/Debug/netcoreapp3.1
+/consoleapp/MongoDBLoader/MongoDb.Repository/bin/Debug/netcoreapp3.1
+/consoleapp/MongoDBLoader/MongoDb.Repository/bin/Debug/net6.0
+/consoleapp/MongoDBLoader/MongoDBLoader/bin/Debug/net6.0
+/consoleapp/MongoDBLoader/MongoDBLoader.Domain/bin/Debug/net6.0
