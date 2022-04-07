@@ -33,10 +33,10 @@ namespace MongoDBLoader
                 inputDataCsvList = await serviceProvider.GetService<IMyApplication>().ReadInputFile();
 
                 List<Beverage> beverageList = new List<Beverage>();
-
+                
                 inputDataCsvList.ForEach(x =>
                 {
-                    beverageList.Add(new Beverage { Description = x.Description, ABV = x.ABV, Category = x.Category, BeverageName = x.BeverageName });
+                    beverageList.Add(new Beverage { _partition = "", Description = x.Description, ABV = x.ABV, Category = x.Category, BeverageName = x.BeverageName });
                 });
                 
                 await serviceProvider.GetService<IMyApplication>().InsertIntoMongoDb(beverageList);

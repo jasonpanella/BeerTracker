@@ -15,5 +15,6 @@ namespace MongoDBLoader
         public decimal ABV { get; set; }
         public int Category { get; set; }
         public DateTime LastUpdate { get; set; }
+        public string _partition { get; set; }
     }
 }
