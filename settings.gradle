@@ -1,22 +1,2 @@
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral{
-            url 'https://oss.jfrog.org/artifactory/oss-snapshot-local'
-
-        }
-    }
-}
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
-    repositories {
-        google()
-        mavenCentral{
-            url 'https://oss.jfrog.org/artifactory/oss-snapshot-local'
-        }
-        jcenter() // required for android-adapters realm recyclerview adapter library
-    }
-}
 rootProject.name = "App"
 include ':app'
