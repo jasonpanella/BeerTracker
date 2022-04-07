@@ -1,23 +1,34 @@
-# Compiled class file
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+/.idea
+/.vs
+# Java class files
 *.class
-
 # Log file
 *.log
 
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+/consoleapp/MongoDBLoader/.vs/MongoDBLoader/v17
+/consoleapp/MongoDBLoader/MongoDBLoader/bin/Debug/netcoreapp3.1
+/consoleapp/MongoDBLoader/MongoDBLoader/obj
+/consoleapp/MongoDBLoader/MongoDBLoader.Domain/obj
+/consoleapp/MongoDBLoader/MongoDb.Data/obj
+/consoleapp/MongoDBLoader/.vs/MongoDBLoader/config
+/consoleapp/MongoDBLoader/MongoDb.Repository/obj
+/consoleapp/MongoDBLoader/MongoDBLoader.Domain/bin/Debug/netcoreapp3.1
+/consoleapp/MongoDBLoader/MongoDb.Repository/bin/Debug/netcoreapp3.1
+/consoleapp/MongoDBLoader/MongoDb.Repository/bin/Debug/net6.0
+/consoleapp/MongoDBLoader/MongoDBLoader/bin/Debug/net6.0
+/consoleapp/MongoDBLoader/MongoDBLoader.Domain/bin/Debug/net6.0

@@ -1,0 +1,34 @@
+{
+    "bsonType": "object",
+    "properties": {
+        "ABV": {
+            "bsonType": "decimal"
+        },
+        "BeverageName": {
+            "bsonType": "string"
+        },
+        "Category": {
+            "bsonType": "int"
+        },
+        "Description": {
+            "bsonType": "string"
+        },
+        "LastUpdate": {
+            "bsonType": "date"
+        },
+        "_id": {
+            "bsonType": "objectId"
+        },
+        "_partition": {
+            "bsonType": "string"
+        }
+    },
+    "required": [
+        "_id",
+        "Category",
+        "ABV",
+        "BeverageName",
+        "_partition"
+    ],
+    "title": "Beverage"
+}
